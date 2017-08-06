@@ -20,7 +20,6 @@ setup(
         'Environment :: Web Environment',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: Unix',
-        'Programming Language :: Python',
-        'Project :: pay-ir'
+        'Programming Language :: Python'
     ],
 )
