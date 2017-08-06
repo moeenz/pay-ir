@@ -18,7 +18,6 @@ setup(
     classifiers=[
         'Environment :: Console',
         'Environment :: Web Environment',
-        'Framework :: Django',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: Unix',
         'Programming Language :: Python',
