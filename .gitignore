@@ -12,3 +12,4 @@ wheels/
 .installed.cfg
 *.egg
 .cache/*
+.pypirc
