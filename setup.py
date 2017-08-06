@@ -8,6 +8,7 @@ setup(
     name='pay-ir',
     version='0.1.0',
     packages=find_packages(),
+    test_suite='pay_ir.tests',
     include_package_data=True,
     author='Moeen Zamani',
     author_email='moeen.zamani@gmail.com',
