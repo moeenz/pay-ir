@@ -13,6 +13,9 @@ from pay_ir.exceptions.payment import AmountNotFoundException,\
 from pay_ir.exceptions.verification import TransIdNotFoundException
 
 
+# Success code received from API server.
+SUCCESS_CODE = 1
+
 # Dictionary of all possible error codes in send API
 #   and their corresponding exception.
 INIT_RESPONSE_MAPPER = {
@@ -44,10 +47,10 @@ def init_has_exceptions(status):
             If all well then it will return False.
     """
 
-    if status in INIT_RESPONSE_MAPPER.keys():
-        raise INIT_RESPONSE_MAPPER[status]()
-    else:
+    if int(status) == SUCCESS_CODE:
         return False
+    else:
+        raise INIT_RESPONSE_MAPPER[status]()
 
 
 def verify_has_exceptions(status):
@@ -56,7 +59,7 @@ def verify_has_exceptions(status):
             If all well then it will return False.
     """
 
-    if status in VERIFY_RESPONSE_MAPPER.keys():
-        raise VERIFY_RESPONSE_MAPPER[status]()
-    else:
+    if int(status) == SUCCESS_CODE:
         return False
+    else:
+        raise VERIFY_RESPONSE_MAPPER['errorCode']()
