@@ -24,7 +24,7 @@ class PayIrClient:
         self.api_key = api_key
 
 
-    def init_transaction(self, amount, redirect_url, factor_number=None):
+    def init_transaction(self, amount, redirect_url, factor_number=None, mobile=None):
         """
             Sends an initial request to 'API_URL_SEND' to retrieve a
                 transaction id. Sent data contains these variables:
@@ -47,23 +47,32 @@ class PayIrClient:
                 One of exceptions.payment according to the returned status code.
         """
 
-        if amount < 1000:
-            raise ValueError('amount value should not be less than 1000.')
         if not isinstance(amount, int):
-            raise TypeError('amount should be of int type.')
+            raise TypeError('\'amount\' should be integer.')
+        if amount < 1000:
+            raise ValueError('\'amount\' value must be >= 1000.')
 
         if not isinstance(redirect_url, str):
-            raise TypeError('redirect_url should be of str type.')
+            raise TypeError('\'redirect_url\' should be string.')
 
         if factor_number and not isinstance(factor_number, str):
-            raise TypeError('factor_number should be of str type.')
+            raise TypeError('\'factor_number\' should be string.')
+            
+        if not isinstance(mobile, str):
+            raise TypeError('\'mobile\' should be string.')
+        if len(mobile) != 11:
+            raise ValueError('\'mobile\' should be 11 characters.')
+        if not mobile.startswith('09'):
+            raise ValueError('\'mobile\' should start with \'09\'.')
 
         init_data = {
             'api': self.api_key,
             'amount': amount,
             'redirect': redirect_url,
-            'factorNumber': factor_number if factor_number is not None else ''
+            'factorNumber': factor_number if factor_number is not None else '',
         }
+        if mobile:
+            init_data['mobile'] = mobile
 
         response = get_json(requests.post(API_URL_SEND, data=init_data))
         if not init_has_exceptions(response['status']):
