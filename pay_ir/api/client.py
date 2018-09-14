@@ -33,6 +33,8 @@ class PayIrClient:
                     - amount (integer): Transaction amount in rials, should be greater than 1000.
                     - redirect (string): Urlencoded return address registered in pay.ir panel.
                     - factor_number (string): (optional).
+                    - mobile (string): (optional).
+                    - description (string): (optional).
 
             Returns:
                 A dictionary on success with format of:
