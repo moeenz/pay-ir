@@ -24,7 +24,7 @@ class PayIrClient:
         self.api_key = api_key
 
 
-    def init_transaction(self, amount, redirect_url, factor_number=None, mobile=None):
+    def init_transaction(self, amount, redirect_url, factor_number=None, mobile=None, description=None):
         """
             Sends an initial request to 'API_URL_SEND' to retrieve a
                 transaction id. Sent data contains these variables:
@@ -58,12 +58,17 @@ class PayIrClient:
         if factor_number and not isinstance(factor_number, str):
             raise TypeError('\'factor_number\' should be string.')
             
-        if not isinstance(mobile, str):
-            raise TypeError('\'mobile\' should be string.')
-        if len(mobile) != 11:
-            raise ValueError('\'mobile\' should be 11 characters.')
-        if not mobile.startswith('09'):
-            raise ValueError('\'mobile\' should start with \'09\'.')
+        if mobile:
+            if not isinstance(mobile, str):
+                raise TypeError('\'mobile\' should be string.')
+            if len(mobile) != 11:
+                raise ValueError('\'mobile\' should be 11 characters.')
+            if not mobile.startswith('09'):
+                raise ValueError('\'mobile\' should start with \'09\'.')
+        
+        if description:
+            if not isinstance(description, str):
+                raise TypeError('\'description\' should be string.')
 
         init_data = {
             'api': self.api_key,
@@ -73,6 +78,8 @@ class PayIrClient:
         }
         if mobile:
             init_data['mobile'] = mobile
+        if description:
+            init_data['description'] = description
 
         response = get_json(requests.post(API_URL_SEND, data=init_data))
         if not init_has_exceptions(response['status']):
